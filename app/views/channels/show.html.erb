@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+<%= @channel.name %>
+<%= @channel.streamkey %>
+<%= @channel.valid_for - Time.now %>
+
+<%= link_to 'Edit', edit_channel_path(@channel) %> |
+<%= link_to 'Back', channels_path %>
