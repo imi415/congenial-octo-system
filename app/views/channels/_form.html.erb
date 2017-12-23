@@ -10,9 +10,12 @@
       </ul>
     </div>
   <% end %>
-  <%= form.text_field :name %><br />
-  <%= form.text_field :valid_for %>
-  <%= form.check_box :expires %>
+  Name: <%= form.text_field :name %><br />
+  Valid for(secs): <%= form.text_field :valid_for %><br />
+  Limit Enabled<%= form.check_box :expires %><br />
+  <% if defined? edit %>
+  Regenerate Key<%= form.check_box :regen_key %><br />
+  <% end %>
   <div class="actions">
     <%= form.submit %>
   </div>

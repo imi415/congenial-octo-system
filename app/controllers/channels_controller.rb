@@ -46,6 +46,10 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
+    if params[:channel][:regen_key] then
+      @channel.streamkey = SecureRandom.hex(32)
+      @channel.save
+    end
     respond_to do |format|
       if @channel.update(channel_params)
         format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
