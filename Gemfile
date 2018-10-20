@@ -38,6 +38,8 @@ gem 'jquery-rails'
 # FA
 gem "font-awesome-rails"
 
+gem 'dotenv-rails'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
