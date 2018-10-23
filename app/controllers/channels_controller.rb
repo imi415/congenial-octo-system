@@ -1,10 +1,10 @@
 class ChannelsController < ApplicationController
   before_action :set_channel, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user
   # GET /channels
   # GET /channels.json
   def index
-    @channels = Channel.all
+    @channels = Channel.where(:user => @user)
   end
 
   # GET /channels/1
@@ -27,6 +27,7 @@ class ChannelsController < ApplicationController
     @channel = Channel.new(channel_params)
     @channel.streamkey = SecureRandom.hex(32)
     @channel.valid_for = Time.now + channel_params[:valid_for].to_i.seconds
+    @channel.user = User.find(session[:user_id])
 
     respond_to do |format|
       if @channel.save
