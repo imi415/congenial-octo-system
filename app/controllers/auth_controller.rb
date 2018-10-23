@@ -8,7 +8,7 @@ class AuthController < ApplicationController
     if @user then
       if @user.authenticate(params[:password]) then
         session[:user_id] = @user.id
-        redirect_to session.delete(:return_to)
+        redirect_to '/channels'
       else
         @msg = "Not match"
       end
