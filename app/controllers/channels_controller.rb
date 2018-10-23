@@ -31,9 +31,9 @@ class ChannelsController < ApplicationController
 
     respond_to do |format|
       if @channel.save
-        LiveAuth::RedisStore::Redis.set("hls_imi_#{@channel.name}_key", @channel.streamkey)
+        LiveAuth::RedisStore::Redis.set("#{ENV['LIVE_NAME']}_#{@channel.name}_key", @channel.streamkey)
         if @channel.expires then
-          LiveAuth::RedisStore::Redis.expire("hls_imi_#{@channel.name}_key", channel_params[:valid_for].to_i)
+          LiveAuth::RedisStore::Redis.expire("#{ENV['LIVE_NAME']}_#{@channel.name}_key", channel_params[:valid_for].to_i)
         end
         format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
         format.json { render :show, status: :created, location: @channel }
@@ -66,7 +66,7 @@ class ChannelsController < ApplicationController
   # DELETE /channels/1.json
   def destroy
     @channel.destroy
-    LiveAuth::RedisStore::Redis.expire("hls_imi_#{@channel.name}_key", -1)
+    LiveAuth::RedisStore::Redis.expire("#{ENV['LIVE_NAME']}_#{@channel.name}_key", -1)
     respond_to do |format|
       format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
       format.json { head :no_content }
