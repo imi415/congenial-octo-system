@@ -14,4 +14,5 @@
 //= require jquery
 //= require turbolinks
 //= require bootstrap
+//= require ./DPlayer/_hls.min
 //= require_tree .
