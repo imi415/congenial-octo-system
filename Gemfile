@@ -30,7 +30,7 @@ gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap', '~> 4.1.3'
 
 gem 'bootswatch-rails'
 # jQ
