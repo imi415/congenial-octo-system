@@ -7,7 +7,7 @@
             container: document.getElementById 'dplayer',
             screenshot: true
             video: {
-                url: document.getElementById 'local-player',
+                url: document.getElementById('local-player').href,
                 type: 'hls'
             }
         })
@@ -18,7 +18,7 @@
             container: document.getElementById 'dplayer',
             screenshot: true
             video: {
-                url: document.getElementById 'local-player',
+                url: document.getElementById('local-player').href,
                 type: 'hls'
             }
         })
