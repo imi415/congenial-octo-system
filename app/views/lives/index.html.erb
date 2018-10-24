@@ -1,8 +1,8 @@
 <div class="row">
 <% @channels.each do | channel | %>
     <div class="card col-sm-12 col-md-4">
-        <object class="card-img-top" data="/assets/default.png" type="image/png">
-            <img class="card-img-top" src="<%= ENV['COVER_PATH'] %>/<%= channel.name %>.png" alt="Card image cap">
+        <object class="card-img-top" data="<%= ENV['COVER_PATH'] %>/<%= channel.name %>.png" type="image/png">
+            <img class="card-img-top" src="/assets/default.png" alt="Card image cap">
         </object>
         <div class="card-body">
             <h5 class="card-title"><%= channel.name %></h5>
