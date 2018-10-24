@@ -3,16 +3,19 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 change = ->
-        for player in document.getElementsByClassName 'video-js'
-            video = videojs(player)
-            video.hotkeys
-              volumeStep: 0.1
-              seekStep: 5
-              enableModifiersForNumbers: false
+        for player in document.getElementsByClassName 'dplayer'
+            dp = new DPlayer({
+                container: player,
+                screenshot: true
+                video: {
+                    url: player.src,
+                    type: 'hls'
+                }
+            })
 
 
     before_load = ->
-        for player in document.getElementsByClassName 'video-js'
+        for player in document.getElementsByClassName 'dplayer'
             video = videojs(player)
             video.dispose()
 
