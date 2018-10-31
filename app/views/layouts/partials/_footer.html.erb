@@ -1,0 +1,10 @@
+<footer class="footer">
+    <div class="float-right">
+        <span class="badge badge-info float-right">Commit: <%= APP_Version %></span><br/>
+        <span class="badge badge-primary float-right">System: <%= RUBY_PLATFORM %></span><br/>
+        <span class="badge badge-danger float-right">Ruby: <%= RUBY_VERSION %> rev.<%= RUBY_REVISION %></span><br/>
+        <span class="badge badge-danger float-right">Rails: <%= Rails::VERSION::STRING %></span><br/>
+        <span class="badge badge-secondary float-right">Client: <%= request.remote_ip %></span>
+        </div>
+    <span class="float-left" style="  line-height: 120px;">&copy;&nbsp;<%= ENV['COPYRIGHT'] %></span>
+</footer>

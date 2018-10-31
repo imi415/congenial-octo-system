@@ -1,4 +1,5 @@
-    <div class="card col-sm-12 col-md-4">
+<div class="col-sm-12 col-md-4">
+    <div class="card">
         <% if channel.status %>
             <%= image_tag "#{ENV['COVER_PATH']}/#{channel.name}.png?ts=#{Time.now.to_i}", class: "card-img-top" %>
         <% else %>
@@ -14,3 +15,4 @@
             <% end %>
         </div>
     </div>
+</div>
