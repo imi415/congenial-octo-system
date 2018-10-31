@@ -3,6 +3,9 @@ class LivesController < ApplicationController
 
   def index
     @channels = Channel.all
+    @channels.each { | ch |
+      ch.status = (LiveAuth::RedisStore::Redis.get("#{ENV['LIVE_NAME']}_#{ch.name}_status") == 'on') ? true : false;
+    }
   end
 
 

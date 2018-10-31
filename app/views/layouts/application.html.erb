@@ -16,6 +16,11 @@
   <div class="container" style="padding-top: 40px">
     <%= yield %>
   </div>
-
+  <div class="fixed-bottom">
+  <div class="mx-auto" style="width: 150px;">
+    <span class="badge badge-info">Commit: <%= APP_Version %></span>
+    <p><%= ENV['COPYRIGHT'] %></p>
+  </div>
+  </div>
   </body>
 </html>

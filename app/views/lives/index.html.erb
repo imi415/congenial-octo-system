@@ -1,13 +1,17 @@
 <div class="row">
 <% @channels.each do | channel | %>
     <div class="card col-sm-12 col-md-4">
-        <object class="card-img-top" data="<%= ENV['COVER_PATH'] %>/<%= channel.name %>.png" type="image/png">
-            <img class="card-img-top" src="/assets/default.png" alt="Card image cap">
-        </object>
+        <% if channel.status %>
+            <%= image_tag "#{ENV['COVER_PATH']}/#{channel.name}.png", class: "card-img-top" %>
+        <% else %>
+            <%= image_tag "/assets/default.png", class: "card-img-top" %>
+        <% end %>
         <div class="card-body">
             <h5 class="card-title"><%= channel.name %></h5>
             <p class="card-text">By <%= channel.user.username %></p>
-           <%= link_to fa_icon('play'), live_play_path(channel.name), class: 'btn btn-primary' %>
+            <% if channel.status %>
+                <%= link_to fa_icon('play'), live_play_path(channel.name), class: 'btn btn-primary' %>
+            <% end %>
         </div>
     </div>
 <% end %>
