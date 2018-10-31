@@ -1,6 +1,6 @@
     <div class="card col-sm-12 col-md-4">
         <% if channel.status %>
-            <%= image_tag "#{ENV['COVER_PATH']}/#{channel.name}.png", class: "card-img-top" %>
+            <%= image_tag "#{ENV['COVER_PATH']}/#{channel.name}.png?#{Time.now.to_i}", class: "card-img-top" %>
         <% else %>
             <%= image_tag "/assets/default.png", class: "card-img-top" %>
         <% end %>
