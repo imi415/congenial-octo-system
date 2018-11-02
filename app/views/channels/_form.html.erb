@@ -12,6 +12,7 @@
   <% end %>
   Name: <%= form.text_field :name %><br />
   Valid for(secs): <%= form.text_field :valid_for %><br />
+  Enabled: <%= form.check_box :is_enabled %><br />
   Limit Enabled<%= form.check_box :expires %><br />
   <% if defined? edit %>
   Regenerate Key<%= form.check_box :regen_key %><br />

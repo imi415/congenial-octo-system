@@ -2,7 +2,7 @@ class LivesController < ApplicationController
   before_action :set_channel, only: [:show]
 
   def index
-    @channels = Channel.all
+    @channels = Channel.where(:is_enabled => true)
     @channels.each { | ch |
       ch.status = (LiveAuth::RedisStore::Redis.get("#{ENV['LIVE_NAME']}_#{ch.name}_status") == 'on') ? true : false;
     }

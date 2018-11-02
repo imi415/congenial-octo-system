@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171223140228) do
+ActiveRecord::Schema.define(version: 2018_11_02_024140) do
 
   create_table "channels", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20171223140228) do
     t.datetime "updated_at", null: false
     t.boolean "expires"
     t.integer "user_id"
+    t.boolean "is_enabled", default: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -30,5 +31,4 @@ ActiveRecord::Schema.define(version: 20171223140228) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
 end
