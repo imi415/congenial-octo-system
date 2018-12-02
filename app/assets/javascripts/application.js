@@ -15,5 +15,4 @@
 //= require turbolinks
 //= require popper
 //= require bootstrap
-//= require moment
 //= require_tree .
