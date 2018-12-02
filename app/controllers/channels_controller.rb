@@ -26,14 +26,14 @@ class ChannelsController < ApplicationController
   def create
     @channel = Channel.new(channel_params)
     @channel.streamkey = SecureRandom.hex(32)
-    @channel.valid_for = Time.now + channel_params[:valid_for].to_i.seconds
+    @channel.valid_for = DateTime.parse(channel_params[:valid_for])
     @channel.user = User.find(session[:user_id])
-
+    @channel.expires = channel_params[:expires]
     respond_to do |format|
       if @channel.save
         LiveAuth::RedisStore::Redis.set("#{ENV['LIVE_NAME']}_#{@channel.name}_key", @channel.streamkey)
         if @channel.expires then
-          LiveAuth::RedisStore::Redis.expire("#{ENV['LIVE_NAME']}_#{@channel.name}_key", channel_params[:valid_for].to_i)
+          LiveAuth::RedisStore::Redis.expireat("#{ENV['LIVE_NAME']}_#{@channel.name}_key", DateTime.parse(channel_params[:valid_for]).to_i)
         end
         format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
         format.json { render :show, status: :created, location: @channel }
@@ -47,9 +47,21 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
-    if params[:channel][:regen_key] then
+    if params[:channel][:regen_key] == "1" then
       @channel.streamkey = SecureRandom.hex(32)
-      @channel.save
+    end
+    orig_name = @channel.name
+    @channel.name = params[:channel][:name]
+    @channel.expires = channel_params[:expires]
+    @channel.valid_for = DateTime.parse(channel_params[:valid_for])
+    if @channel.save && @channel.name != orig_name then
+      LiveAuth::RedisStore::Redis.del("#{ENV['LIVE_NAME']}_#{orig_name}_key")
+      LiveAuth::RedisStore::Redis.set("#{ENV['LIVE_NAME']}_#{@channel.name}_key", @channel.streamkey)
+    end
+    if @channel.expires then
+      LiveAuth::RedisStore::Redis.expireat("#{ENV['LIVE_NAME']}_#{@channel.name}_key", DateTime.parse(channel_params[:valid_for]).to_i)
+    else
+      LiveAuth::RedisStore::Redis.persist("#{ENV['LIVE_NAME']}_#{@channel.name}_key")
     end
     respond_to do |format|
       if @channel.update(channel_params)

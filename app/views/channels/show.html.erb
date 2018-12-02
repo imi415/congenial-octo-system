@@ -1,8 +1,10 @@
-<p id="notice"><%= notice %></p>
-<%= @channel.name %>
-<%= @channel.streamkey %>
-<%= @channel.user.username %>
-<%= @channel.valid_for - Time.now %>
-
-<%= link_to 'Edit', edit_channel_path(@channel) %> |
-<%= link_to 'Back', channels_path %>
+<ul class="list-group">
+  <li class="list-group-item"><%= @channel.name %></li>
+  <li class="list-group-item"><%= @channel.streamkey %></li>
+  <li class="list-group-item"><%= @channel.user.username %></li>
+  <li class="list-group-item"><%= @channel.valid_for %></li>
+  <li class="list-group-item">
+    <%= link_to 'Edit', edit_channel_path(@channel), class: "btn btn-warning" %>
+    <%= link_to 'Back', channels_path, class: "btn btn-success" %>
+  </li>
+</ul>

@@ -2,5 +2,5 @@
 
 <%= render 'form', channel: @channel, edit: true %>
 
-<%= link_to 'Show', @channel %> |
-<%= link_to 'Back', channels_path %>
+<%= link_to 'Back', @channel, class: "btn btn-success" %>
+<%= link_to 'Destroy', @channel, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>

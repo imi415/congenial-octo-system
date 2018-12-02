@@ -10,14 +10,26 @@
       </ul>
     </div>
   <% end %>
-  Name: <%= form.text_field :name %><br />
-  Valid for(secs): <%= form.text_field :valid_for %><br />
-  Enabled: <%= form.check_box :is_enabled %><br />
-  Limit Enabled<%= form.check_box :expires %><br />
-  <% if defined? edit %>
-  Regenerate Key<%= form.check_box :regen_key %><br />
-  <% end %>
+  <div class="form-group">
+  Name: <%= form.text_field :name, class: "form-control" %>
+  Valid until: <%= form.text_field :valid_for, class: "form-control" %>
+  <div class="form-group form-check">
+    <%= form.check_box :is_enabled, class: "form-check-input", id: "enabled_check" %>
+    <label class="form-check-label" for="enabled_check">Enabled: </label>
+  </div>
+  <div class="form-group form-check">
+    <%= form.check_box :expires, class: "form-check-input", id: "expires_check" %>
+    <label class="form-check-label" for="expires_check">Limit Enabled: </label>
+  </div>
+  <div class="form-group form-check">
+    <% if defined? edit %>
+      <%= form.check_box :regen_key, class: "form-check-input", id: "regen_check" %>
+      <label class="form-check-label" for="regen_check">Regenerate Key: </label>
+    <% end %>
+
+  </div>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
   </div>
 <% end %>

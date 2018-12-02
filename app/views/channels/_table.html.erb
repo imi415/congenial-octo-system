@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @channels.each do |channel| %>
+      <tr>
+        <td><%= channel.name %>
+        <td><%= link_to 'Show', channel, class: "btn btn-success" %>
+        <%= link_to 'Edit', edit_channel_path(channel), class: "btn btn-warning" %>
+        <%= link_to 'Destroy', channel, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
