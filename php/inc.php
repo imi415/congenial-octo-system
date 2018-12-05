@@ -9,34 +9,34 @@ class RtmpManager {
     private $app;
     private $name;
 
-    function __construct($_app, $_name) {
-        $app = $_app;
-        $name = $_name;
+    function __construct($param_app, $param_name) {
+        $this->app = $param_app;
+        $this->name = $param_name;
 
         $this->redis = new Redis();
-        $this->redis -> connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
-        $this->redis -> select($_ENV['REDIS_DB']);
+        $this->redis->connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
+        $this->redis->select($_ENV['REDIS_DB']);
     }
 
-    function auth_stream($_key) {
+    function auth_stream($param_key) {
 
         $redis_enabled = $this->redis->get($_ENV['LIVE_NAME'] . '_' . $this->name . '_enabled');
 
         if ($redis_enabled) {
             $redis_key = $this->redis->get($_ENV['LIVE_NAME'] . '_' . $this->name . '_key');
-            if ($redis_key === $_key) {
+            if ($redis_key === $param_key) {
                 return true;
             }
         }
         return false;
     }
 
-    function set_stream_status($_status) {
+    function set_stream_status($param_status) {
         $status_key = $_ENV['LIVE_NAME'] . '_' . $this->name . '_status';
-        if ($_status != 'on') {
+        if ($param_status != 'on') {
             $this->redis ->del($status_key);
         } else {
-            $this->redis ->set($status_key, $_status);
+            $this->redis ->set($status_key, $param_status);
         }
     }
 }
