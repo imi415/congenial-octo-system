@@ -6,4 +6,4 @@ $name = $_POST['name'];
 
 $rm = new RtmpManager($app, $name);
 
-$rm.set_stream_status('off');
+$rm->set_stream_status('off');
