@@ -1,2 +1,2 @@
 require "#{Rails.root.join('lib')}/rtmp_manager.rb"
-    RManager = RtmpManager.new
+RManager = RtmpManager.new
