@@ -49,9 +49,10 @@ class ChannelsController < ApplicationController
       @channel.streamkey = SecureRandom.hex(32)
     end
     orig_name = @channel.name
-    @channel.name = params[:channel][:name]
+    @channel.name = channel_params[:name]
     @channel.expires = channel_params[:expires]
     @channel.valid_for = DateTime.parse(channel_params[:valid_for])
+    @channel.is_enabled = channel_params[:is_enabled]
 
     if @channel.save then
       ::RManager.add_or_update_channel(@channel, {:change_name => (@channel.name != orig_name), orig_name: orig_name})

@@ -44,18 +44,6 @@ class RtmpManager
 
     end
 
-    def disable_channel(channel)
-        redis_del("#{channel.name}_enabled")
-    end
-
-    def enable_channel(channel)
-        redis_set("#{channel.name}_enabled", "true")
-
-        if channel.expires then
-            redis_expireat("#{channel.name}_enabled", channel.valid_for.to_i)
-        end
-    end
-
     def load_channels
         begin
             channels = Channel.all
