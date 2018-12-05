@@ -2,7 +2,6 @@ class RtmpManager
     def initialize
         redis_init
         redis_flushdb
-        load_channels
         @is_loaded = false
     end
 
