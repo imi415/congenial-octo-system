@@ -5,7 +5,9 @@ $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
 $dotenv->load();
 
 class RtmpManager {
-    private $redis, $app, $name;
+    private $redis;
+    private $app;
+    private $name;
 
     function __construct($_app, $_name) {
         $app = $_app;
