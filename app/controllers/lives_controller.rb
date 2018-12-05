@@ -4,10 +4,9 @@ class LivesController < ApplicationController
   def index
     @channels = Channel.where(:is_enabled => true)
     @channels.each { | ch |
-      ch.status = (LiveAuth::RedisStore::Redis.get("#{ENV['LIVE_NAME']}_#{ch.name}_status") == 'on') ? true : false;
+      ch.status = ::RManager.channel_is_streaming?(ch)
     }
   end
-
 
   def show
   end

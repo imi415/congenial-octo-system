@@ -4,8 +4,37 @@ require __DIR__ . '/vendor/autoload.php';
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
 $dotenv->load();
 
-$redis = new Redis();
+class RtmpManager {
+    private $redis, $app, $name;
 
-$redis -> connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
+    function __construct($_app, $_name) {
+        $app = $_app;
+        $name = $_name;
 
-$redis -> select($_ENV['REDIS_DB']);
+        $redis = new Redis();
+        $redis -> connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
+        $redis -> select($_ENV['REDIS_DB']);
+    }
+
+    function auth_stream($_key) {
+
+        $redis_enabled = $redis->get($_ENV['LIVE_NAME'] . '_' . $name . '_enabled');
+
+        if ($redis_enabled) {
+            $redis_key = $redis->get($_ENV['LIVE_NAME'] . '_' . $name . '_key');
+            if ($redis_key === $_key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function set_stream_status($_status) {
+        $status_key = $_ENV['LIVE_NAME'] . '_' . $name . '_status';
+        if ($_status != 'on') {
+            $redis ->del($status_key);
+        } else {
+            $redis ->set($status_key, $_status);
+        }
+    }
+}

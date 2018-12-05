@@ -4,6 +4,6 @@ require_once('inc.php');
 $app = $_POST['app'];
 $name = $_POST['name'];
 
-$status_key = $_ENV['LIVE_NAME'] . '_' . $name . '_status';
-$redis ->set($status_key, 'off');
+$rm = new RtmpManager($app, $name);
 
+$rm.set_stream_status('off');

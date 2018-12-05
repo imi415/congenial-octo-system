@@ -31,10 +31,8 @@ class ChannelsController < ApplicationController
     @channel.expires = channel_params[:expires]
     respond_to do |format|
       if @channel.save
-        LiveAuth::RedisStore::Redis.set("#{ENV['LIVE_NAME']}_#{@channel.name}_key", @channel.streamkey)
-        if @channel.expires then
-          LiveAuth::RedisStore::Redis.expireat("#{ENV['LIVE_NAME']}_#{@channel.name}_key", DateTime.parse(channel_params[:valid_for]).to_i)
-        end
+        ::RManager.add_or_update_channel(@channel)
+
         format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
         format.json { render :show, status: :created, location: @channel }
       else
@@ -54,15 +52,11 @@ class ChannelsController < ApplicationController
     @channel.name = params[:channel][:name]
     @channel.expires = channel_params[:expires]
     @channel.valid_for = DateTime.parse(channel_params[:valid_for])
-    if @channel.save && @channel.name != orig_name then
-      LiveAuth::RedisStore::Redis.del("#{ENV['LIVE_NAME']}_#{orig_name}_key")
-      LiveAuth::RedisStore::Redis.set("#{ENV['LIVE_NAME']}_#{@channel.name}_key", @channel.streamkey)
+
+    if @channel.save then
+      ::RManager.add_or_update_channel(@channel, {:change_name => (@channel.name != orig_name), orig_name: orig_name})
     end
-    if @channel.expires then
-      LiveAuth::RedisStore::Redis.expireat("#{ENV['LIVE_NAME']}_#{@channel.name}_key", DateTime.parse(channel_params[:valid_for]).to_i)
-    else
-      LiveAuth::RedisStore::Redis.persist("#{ENV['LIVE_NAME']}_#{@channel.name}_key")
-    end
+
     respond_to do |format|
       if @channel.update(channel_params)
         format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
