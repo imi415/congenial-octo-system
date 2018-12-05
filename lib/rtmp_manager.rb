@@ -70,13 +70,6 @@ class RtmpManager
         channels = Channel.all
 
         channels.each do | channel |
-            if !opts.nil? && opts[:change_name] then
-                redis_del("#{opts[:orig_name]}_key")
-                redis_del("#{opts[:orig_name]}_original")
-                redis_del("#{opts[:orig_name]}_enabled")
-                redis_del("#{opts[:orig_name]}_status")
-            end
-    
             redis_set("#{channel.name}_key", channel.streamkey)
     
             if channel.allow_original then
