@@ -3,9 +3,11 @@ class RtmpManager
         redis_init
         redis_flushdb
         load_channels
+        @is_loaded = false
     end
 
     def add_or_update_channel(channel, opts = nil)
+        check_loaded
 
         if !opts.nil? && opts[:change_name] then
             redis_del("#{opts[:orig_name]}_key")
@@ -34,10 +36,14 @@ class RtmpManager
     end
 
     def channel_is_streaming?(channel)
+        check_loaded
+
         return (redis_get("#{channel.name}_status") == "on" ? true : false)
     end
 
     def delete_channel(channel)
+        check_loaded
+
         redis_del("#{channel.name}_key")
         redis_del("#{channel.name}_original")
         redis_del("#{channel.name}_enabled")
@@ -46,10 +52,14 @@ class RtmpManager
     end
 
     def disable_channel(channel)
+        check_loaded
+
         redis_del("#{channel.name}_enabled")
     end
 
     def enable_channel(channel)
+        check_loaded
+
         redis_set("#{channel.name}_enabled", "true")
 
         if channel.expires then
@@ -66,6 +76,14 @@ class RtmpManager
     end
 
     private
+
+    def check_loaded
+        if !@is_loaded then
+            load_channels
+            @is_loaded = true
+        end
+
+    end
 
     def redis_init
         @redis = Redis.new(
