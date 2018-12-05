@@ -70,7 +70,30 @@ class RtmpManager
         channels = Channel.all
 
         channels.each do | channel |
-            add_or_update_channel(channel)
+            if !opts.nil? && opts[:change_name] then
+                redis_del("#{opts[:orig_name]}_key")
+                redis_del("#{opts[:orig_name]}_original")
+                redis_del("#{opts[:orig_name]}_enabled")
+                redis_del("#{opts[:orig_name]}_status")
+            end
+    
+            redis_set("#{channel.name}_key", channel.streamkey)
+    
+            if channel.allow_original then
+                redis_set("#{channel.name}_original", "true") # Allow push original stream to hls.
+            else
+                redis_del("#{channel.name}_original")
+            end
+            
+            if channel.is_enabled then
+                redis_set("#{channel.name}_enabled", "true")
+    
+                if channel.expires then
+                    redis_expireat("#{channel.name}_enabled", channel.valid_for.to_i)
+                end
+            else
+                redis_del("#{channel.name}_enabled") # Delete this key if this channel is no longer available.
+            end
         end
     end
 
