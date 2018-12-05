@@ -7,7 +7,7 @@ $key = $_POST['key'];
 
 $rm = new RtmpManager($app, $name);
 
-if ($rm->auth_stream($key)) {
+if ($rm->auth_update()) {
 }
 else {
     header("HTTP/1.1 403 Forbidden");

@@ -31,6 +31,15 @@ class RtmpManager {
         return false;
     }
 
+    function auth_update() {
+        $redis_enabled = $this->redis->get($_ENV['LIVE_NAME'] . '_' . $this->name . '_enabled');
+
+        if ($redis_enabled) {
+            return true;
+        }
+        return false;
+    } 
+
     function set_stream_status($param_status) {
         $status_key = $_ENV['LIVE_NAME'] . '_' . $this->name . '_status';
         if ($param_status != 'on') {
